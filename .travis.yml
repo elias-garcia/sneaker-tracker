@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - "8"
+
+branches:
+  only:
+    - master
+
+install:
+  - npm i -g firebase-tools
+
+script:
+  - echo "Deploying! :D"
+
+after_success:
+  - firebase deploy --project $FIREBASE_PROJECT --token $FIREBASE_TOKEN

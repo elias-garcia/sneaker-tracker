@@ -1,71 +1,90 @@
 import * as puppeteer from 'puppeteer';
+import { shopsScrapingData } from './data';
+import { Sneaker } from './interfaces/sneaker.interface';
+import { processSelector } from './services/dom.service';
+import { getProductLinks } from './services/pagination.service';
+import { extractProductData } from './services/product.service';
 
-async function autoScroll(page: puppeteer.Page): Promise<any> {
-  await page.evaluate((): Promise<any> => {
-    return new Promise((resolve) => {
-      let totalHeight = 0;
-      const distance = 200;
-      const timer = setInterval(() => {
-        const scrollHeight = document.body.scrollHeight;
+const blockedResourceTypes: puppeteer.ResourceType[] = [
+  'image',
+  'media',
+  'font',
+  'texttrack',
+  'media',
+  'other',
+  'manifest',
+];
 
-        window.scrollBy(0, distance);
-        totalHeight += distance;
+const skippedResources: string[] = [
+  'quantserve',
+  'adzerk',
+  'doubleclick',
+  'adition',
+  'exelator',
+  'sharethrough',
+  'cdn.api.twitter',
+  'google-analytics',
+  'googletagmanager',
+  'google',
+  'fontawesome',
+  'facebook',
+  'analytics',
+  'optimizely',
+  'clicktale',
+  'mixpanel',
+  'zedo',
+  'clicksor',
+  'tiqcdn',
+  'monetate',
+  'intercom'
+];
 
-        if (totalHeight >= scrollHeight) {
-          clearInterval(timer);
-          resolve();
-        }
-      }, 100);
-    });
-  });
-}
-
-async function iterateOverEnumeratedPages(page: puppeteer.Page) {
-  const selector = '.current + li';
-  const subSelector = ':first-child';
-  let areMorePages = true;
-
-  while (areMorePages) {
-    const oldNextPageUrl = await page.evaluate((sel, subSel): string => {
-      return (<HTMLLIElement>document.querySelector(sel)).querySelector(subSel).href;
-    }, selector, subSelector);
-
-    console.log(oldNextPageUrl);
-    await Promise.all([
-      page.click(selector),
-      page.waitFor((sel, subSel, oldUrl) => {
-        return document.querySelector(sel).querySelector(subSel).href !== oldUrl
-      }, {}, selector, subSelector, oldNextPageUrl)
-    ]);
-
-    const newNextPageUrl = await page.evaluate((sel, subSel): string => {
-      return (<HTMLAnchorElement>document.querySelector(sel)).querySelector(subSel).href;
-    }, selector, subSelector);
-
-    console.log(newNextPageUrl);
-    if (oldNextPageUrl === newNextPageUrl) {
-      areMorePages = false;
-    }
-  }
-}
 
 async function run(): Promise<any> {
-  const url = 'https://footdistrict.com/zapatillas/zapatillas-hombre/where/p/1.html';
-
   const browser = await puppeteer.launch({ headless: false, defaultViewport: null });
   const page = await browser.newPage();
 
-  await page.goto(url);
-  await page.waitForNavigation({ waitUntil: 'domcontentloaded' });
+  await page.exposeFunction('processSelector', processSelector);
 
-  await iterateOverEnumeratedPages(page);
-  //await autoScroll(page);
+  for (const shopData of shopsScrapingData) {
+    await page.setRequestInterception(true);
+
+    page.on('request', (request: puppeteer.Request) => {
+      const requestUrl = request.url().split('?')[0].split('#')[0];
+
+      if (
+        blockedResourceTypes.indexOf(request.resourceType()) !== -1 ||
+        skippedResources.some(resource => requestUrl.indexOf(resource) !== -1)
+      ) {
+        request.abort();
+      } else {
+        request.continue();
+      }
+    });
+
+    await page.goto(shopData.urls[0].url);
+
+    const productLinks = await getProductLinks(page, shopData.paginationData, shopData.productSelector);
+
+    console.log(productLinks.length);
+
+    for (let i = 0; i < (productLinks.length + 1); i++) {
+      const sneakerData: Sneaker = await extractProductData(
+        page,
+        productLinks[i],
+        shopData.productDataSelectors
+      );
+
+      console.log(sneakerData);
+    }
+  }
+
 }
 
 (async () => {
   try {
     await run();
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
 })()

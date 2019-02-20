@@ -43,7 +43,7 @@ export const consuelaStore: ShopScrapingData = {
       property: NodeProperty.Content
     },
     price: {
-      selector: 'meta[itemProp="og:price:amount"]',
+      selector: 'meta[property="og:price:amount"]',
       property: NodeProperty.Content
     },
     currency: {
@@ -55,7 +55,7 @@ export const consuelaStore: ShopScrapingData = {
       property: NodeProperty.InnerText,
       textProcessingData: {
         regExpData: {
-          regExp: '(?!.*\\s).*',
+          regExp: '(?<=Modelo:).*',
         },
         textReplaceData: {
           regExpData: {

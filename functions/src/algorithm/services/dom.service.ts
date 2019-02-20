@@ -1,3 +1,4 @@
+import { Page } from "puppeteer";
 import { RegExpData, SelectorData, TextReplaceData } from "../interfaces/shop-scraping-data.interface";
 
 function createRegExp(regExpData: RegExpData): RegExp {
@@ -21,16 +22,17 @@ function processTextReplace(text: string, textReplaceData: TextReplaceData): str
   return text.replace(regExp, textReplaceData.replaceWith);
 }
 
-export function processSelector(
+export async function processSelector(
+  page: Page,
   selectorData: SelectorData
-): string | null {
-  const node = document.querySelector(selectorData.selector);
+): Promise<string | null> {
+  const node = await page.$(selectorData.selector);
   let processedText = null;
 
   if (node) {
     const processingData = selectorData.textProcessingData;
 
-    processedText = (node as any)[selectorData.property];
+    processedText = await (await node.getProperty(selectorData.property)).jsonValue();
 
     if (processingData && processingData.regExpData) {
       processedText = processRegExp(processedText, processingData.regExpData);

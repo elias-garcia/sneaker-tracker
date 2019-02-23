@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es2015",
+      "es2015.core",
+      "dom",
+      "dom.iterable"
+    ],
+    "module": "commonjs",
+    "outDir": "dist",
+    "skipLibCheck": true,
+    "target": "es6"
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

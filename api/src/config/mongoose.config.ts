@@ -1,5 +1,5 @@
 import * as mongoose from "mongoose";
-import { Sneaker } from "../../../shared/src";
+import { Sneaker } from "../../../shared/src/index";
 import { rollbar } from "../services/rollbar.service";
 import { apiConfig } from "./api.config";
 

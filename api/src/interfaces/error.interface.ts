@@ -1,4 +1,5 @@
 export interface IError {
-  type: "critical" | "log" | "warning" | "info" | "debug";
+  type: "critical" | "error" | "warning";
+  status: number;
   message: string;
 }

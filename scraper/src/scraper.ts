@@ -1,4 +1,5 @@
 import * as puppeteer from "puppeteer";
+import { configureMongoose } from "./config/mongoose.config";
 import { shopsScrapingData } from "./data";
 import { Sneaker } from "./interfaces/sneaker.interface";
 import { getProductLinks } from "./services/pagination.service";
@@ -79,6 +80,7 @@ async function run(): Promise<any> {
 
 (async () => {
   try {
+    configureMongoose();
     await run();
   } catch (e) {
     console.error(e);

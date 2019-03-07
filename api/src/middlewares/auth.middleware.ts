@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { firebaseAdmin } from "../services/firebase-admin.service";
+import * as admin from "firebase-admin";
 
-export function authMiddleware(
+export async function authMiddleware(
   req: Request,
-  res: Response,
+  _: Response,
   next: NextFunction,
 ) {
   const authHeader = req.header("Authorization");
@@ -12,13 +12,14 @@ export function authMiddleware(
     const token = authHeader.split(" ")[1];
 
     try {
-      const user = firebaseAdmin.auth().verifyIdToken(token);
+      const user: admin.auth.DecodedIdToken =
+        await admin.auth().verifyIdToken(token, true);
 
       (req as any).user = user;
 
       return next();
     } catch (e) {
-      return next(new Error("[AUTH] token not valid"));
+      return next(new Error(`[AUTH] ${(e as admin.FirebaseError).message}`));
     }
   } else {
     return next(new Error("[AUTH] type not valid"));

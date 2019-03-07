@@ -1,10 +1,8 @@
 import * as admin from "firebase-admin";
-import { apiConfig } from "../config/api.config";
-
-export let firebaseAdmin: admin.app.App;
+import { apiConfig } from "./api.config";
 
 export function configureFirebaseAdmin(): void {
-  firebaseAdmin = admin.initializeApp({
+  admin.initializeApp({
     credential: admin.credential.cert(apiConfig.firebase),
   });
 }

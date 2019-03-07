@@ -8,5 +8,6 @@ export function configureRollbar(): void {
     accessToken: apiConfig.rollbarToken,
     captureUncaught: true,
     captureUnhandledRejections: true,
+    enabled: apiConfig.production,
   });
 }

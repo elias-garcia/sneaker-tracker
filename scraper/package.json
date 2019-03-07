@@ -12,12 +12,15 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/mongoose": "^5.3.21",
+    "@types/node": "^11.10.4",
     "nodemon": "^1.18.10",
     "tslint": "^5.12.1",
     "typescript": "^3.3.3333"
   },
   "dependencies": {
     "@sentry/node": "^4.6.3",
+    "mongoose": "^5.4.17",
     "puppeteer": "^1.12.2"
   }
 }

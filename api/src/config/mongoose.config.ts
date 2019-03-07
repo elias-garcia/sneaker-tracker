@@ -1,11 +1,9 @@
 import * as mongoose from "mongoose";
-import { Sneaker } from "../../../shared/src/index";
 import { rollbar } from "../services/rollbar.service";
 import { apiConfig } from "./api.config";
 
 export async function configureMongoose() {
   mongoose.connection.on("connected", async () => {
-    console.log("connected");
     rollbar.debug(`[DB] mongoose connection open to ${apiConfig.mongoUri}`);
   });
 
@@ -14,12 +12,6 @@ export async function configureMongoose() {
   });
 
   await mongoose.connect(apiConfig.mongoUri, { useNewUrlParser: true });
-
-  try {
-    await Sneaker.create({ name: "asd", ref: "asd" });
-  } catch (e) {
-    console.log(e);
-  }
 
   process.on("SIGINT", () => {
     mongoose.connection.close(() => {

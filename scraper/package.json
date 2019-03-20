@@ -2,21 +2,15 @@
   "name": "scraper",
   "version": "1.0.0",
   "scripts": {
-    "build": "tsc",
-    "build:watch": "tsc -w",
     "lint": "tslint -p tsconfig.json",
-    "lint:fix": "tslint -p tsconfig.json --fix",
-    "start": "node dist/scraper.js",
-    "start:watch": "nodemon dist/scraper.js"
+    "lint:fix": "tslint -p tsconfig.json --fix"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/mongoose": "^5.3.21",
     "@types/node": "^11.10.4",
-    "nodemon": "^1.18.10",
-    "tslint": "^5.12.1",
-    "typescript": "^3.3.3333"
+    "tslint": "^5.12.1"
   },
   "dependencies": {
     "@sentry/node": "^4.6.3",

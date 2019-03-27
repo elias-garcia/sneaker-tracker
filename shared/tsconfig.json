@@ -1,8 +1,9 @@
 {
   "extends": "../tsconfig-base.json",
   "compilerOptions": {
-    "outDir": "../dist/shared",
-    "rootDir": "."
+    "outDir": "lib",
+    "rootDir": "src",
+    "declaration": true
   },
   "include": [
     "src/**/*"

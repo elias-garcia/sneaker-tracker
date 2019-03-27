@@ -1,15 +1,10 @@
 {
   "extends": "../tsconfig-base.json",
   "compilerOptions": {
-    "outDir": "../dist/api",
-    "rootDir": "."
+    "outDir": "dist",
+    "rootDir": "src"
   },
   "include": [
     "src/**/*"
-  ],
-  "references": [
-    {
-      "path": "../shared"
-    }
   ]
 }

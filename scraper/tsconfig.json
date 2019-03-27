@@ -7,15 +7,10 @@
       "dom",
       "dom.iterable"
     ],
-    "rootDir": ".",
-    "outDir": "../dist/scraper",
+    "outDir": "dist",
+    "rootDir": "src",
   },
   "include": [
     "src/**/*"
-  ],
-  "references": [
-    {
-      "path": "../shared"
-    }
   ]
 }

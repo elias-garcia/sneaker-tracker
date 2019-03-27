@@ -1,9 +1,7 @@
 {
   "compilerOptions": {
-    "declaration": true,
     "target": "es6",
     "module": "commonjs",
     "skipLibCheck": true,
-    "composite": true
   }
 }

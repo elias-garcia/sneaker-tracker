@@ -1,26 +1,26 @@
+import bugsnag, { Bugsnag } from "@bugsnag/js";
+import bugsnagExpress from "@bugsnag/plugin-express";
 import * as express from "express";
 import { apiConfig } from "./config/api.config";
 import { configureFirebaseAdmin } from "./config/firebase-admin.config";
 import { configureMongoose } from "./config/mongoose.config";
-import { errorHandlerMiddleware } from "./middlewares/error-handler.middleware";
 import { routes } from "./routes";
-import { configureRollbar, rollbar } from "./services/rollbar.service";
 
 const app: express.Express = express();
+const bugsnagClient: Bugsnag.Client = bugsnag(apiConfig.bugsnagApiKey);
+
+bugsnagClient.use(bugsnagExpress);
+
+const bugsnagMiddleware = bugsnagClient.getPlugin("express");
 
 (async () => {
-  configureRollbar();
   await configureMongoose();
   configureFirebaseAdmin();
-
+  app.use(bugsnagMiddleware.requestHandler);
   app.use(express.json());
-
   app.use(apiConfig.apiPath, routes);
-
-  app.use(errorHandlerMiddleware);
-
+  app.use(bugsnagMiddleware.errorHandler);
   app.listen(apiConfig.port, () => {
-    rollbar.debug(`[SERVER] started on port ${apiConfig.port}`);
+    console.log(`[server] started on port ${apiConfig.port}`);
   });
-
 })();

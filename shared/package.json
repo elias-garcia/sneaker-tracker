@@ -1,0 +1,19 @@
+{
+  "name": "shared",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "prepack": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "files": [
+    "lib/"
+  ],
+  "devDependencies": {
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.3333"
+  }
+}

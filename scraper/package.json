@@ -2,8 +2,10 @@
   "name": "scraper",
   "version": "1.0.0",
   "scripts": {
+    "build": "tsc",
     "lint": "tslint -p tsconfig.json",
-    "lint:fix": "tslint -p tsconfig.json --fix"
+    "lint:fix": "tslint -p tsconfig.json --fix",
+    "start": "node dist/scraper.js"
   },
   "author": "",
   "license": "ISC",
@@ -13,7 +15,6 @@
     "tslint": "^5.12.1"
   },
   "dependencies": {
-    "@sentry/node": "^4.6.3",
     "mongoose": "^5.4.17",
     "puppeteer": "^1.12.2"
   }

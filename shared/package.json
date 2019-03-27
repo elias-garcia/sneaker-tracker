@@ -2,16 +2,18 @@
   "name": "shared",
   "version": "1.0.0",
   "description": "",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "prepack": "tsc"
+    "build": "tsc",
+    "pack": "bash scripts/pack.sh"
   },
+  "files": [
+    "**/*",
+    "!shared*"
+  ],
   "author": "",
   "license": "ISC",
-  "files": [
-    "lib/"
-  ],
   "devDependencies": {
     "tslint": "^5.12.1",
     "typescript": "^3.3.3333"

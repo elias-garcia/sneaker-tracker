@@ -1,6 +1,7 @@
 import bugsnag, { Bugsnag } from "@bugsnag/js";
 import bugsnagExpress from "@bugsnag/plugin-express";
 import * as express from "express";
+import { Gender } from "shared";
 import { apiConfig } from "./config/api.config";
 import { configureFirebaseAdmin } from "./config/firebase-admin.config";
 import { configureMongoose } from "./config/mongoose.config";
@@ -10,7 +11,7 @@ const app: express.Express = express();
 const bugsnagClient: Bugsnag.Client = bugsnag(apiConfig.bugsnagApiKey);
 
 bugsnagClient.use(bugsnagExpress);
-
+const asd: Gender;
 const bugsnagMiddleware = bugsnagClient.getPlugin("express");
 
 (async () => {

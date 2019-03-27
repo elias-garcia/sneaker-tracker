@@ -1,8 +1,5 @@
 # Compiled binaries
-lib/
-
-# Tar
-shared-*
+dist/
 
 # Dependencies
 node_modules/

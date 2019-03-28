@@ -1,7 +1,7 @@
 import bugsnag, { Bugsnag } from "@bugsnag/js";
 import bugsnagExpress from "@bugsnag/plugin-express";
 import * as express from "express";
-import { Gender } from "shared";
+import { Gender } from "shared/enums";
 import { apiConfig } from "./config/api.config";
 import { configureFirebaseAdmin } from "./config/firebase-admin.config";
 import { configureMongoose } from "./config/mongoose.config";

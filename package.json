@@ -9,7 +9,7 @@
     "build-scraper": "npm run build --prefix ./scraper",
     "prebuild-shared": "npm run install-shared-dependencies",
     "build-shared": "npm run pack --prefix ./shared",
-    "build": "npm run build-api && npm run build-scraper",
+    "build": "npm run build-shared && npm run build-api && npm run build-scraper",
     "install-api-dependencies": "npm i --prefix ./api",
     "install-scraper-dependencies": "npm i --prefix ./scraper",
     "install-shared-dependencies": "npm i --prefix ./shared",

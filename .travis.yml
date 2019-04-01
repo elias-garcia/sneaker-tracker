@@ -1,26 +1,27 @@
 language: node_js
 node_js:
-  - 8
+- 8
 
 branches:
   only:
-    - master
+  - master
 
 before_install:
-  - npm run lint
+- npm run lint
 
 install:
-  - npm run build
+- npm run build
 
 script:
-  - echo "READY TO DEPLOY! :D"
-
-#deploy:
-#  provider: heroku
-#  api_key:
-#    secure: "YOUR ENCRYPTED API KEY"
+- echo "READY TO DEPLOY! :D"
 
 notifications:
   email:
     on_failure: change
     on_success: change
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: $HEROKU_TOKEN
+  app: sneaker-tracker

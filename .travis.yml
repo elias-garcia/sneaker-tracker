@@ -1,0 +1,26 @@
+language: node_js
+node_js:
+  - 8
+
+branches:
+  only:
+    - master
+
+before_install:
+  - npm run lint
+
+install:
+  - npm run build
+
+script:
+  - echo "READY TO DEPLOY! :D"
+
+#deploy:
+#  provider: heroku
+#  api_key:
+#    secure: "YOUR ENCRYPTED API KEY"
+
+notifications:
+  email:
+    on_failure: change
+    on_success: change

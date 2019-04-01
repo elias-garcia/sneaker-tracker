@@ -1,0 +1,32 @@
+{
+  "name": "sneaker-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "prebuild-api": "npm run install-api-dependencies",
+    "build-api": "npm run build --prefix ./api",
+    "prebuild-scraper": "npm run install-scraper-dependencies",
+    "build-scraper": "npm run build --prefix ./scraper",
+    "prebuild-shared": "npm run install-shared-dependencies",
+    "build-shared": "npm run pack --prefix ./shared",
+    "build": "npm run build-shared && npm run build-api && npm run build-scraper",
+    "install-api-dependencies": "npm i --prefix ./api",
+    "install-scraper-dependencies": "npm i --prefix ./scraper",
+    "install-shared-dependencies": "npm i --prefix ./shared",
+    "lint-api": "npm run lint --prefix ./api",
+    "lint-scraper": "npm run lint --prefix ./scraper",
+    "lint-shared": "npm run lint --prefix ./shared",
+    "lint": "npm run lint-shared && npm run lint-api && npm run lint-scraper",
+    "test": "echo \"tests finished :_D\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elias-garcia/sneaker-tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elias-garcia/sneaker-tracker/issues"
+  },
+  "homepage": "https://github.com/elias-garcia/sneaker-tracker#readme"
+}

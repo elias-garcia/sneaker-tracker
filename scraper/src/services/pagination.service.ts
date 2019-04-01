@@ -1,5 +1,10 @@
 import { Page } from "puppeteer";
-import { EnumerationPaginationData, LoadMorePaginationData, Pagination, PaginationData } from "../interfaces/shop-scraping-data.interface";
+import {
+  EnumerationPaginationData,
+  LoadMorePaginationData,
+  Pagination,
+  PaginationData,
+ } from "../interfaces/shop-scraping-data.interface";
 
 async function autoScroll(
   page: Page,

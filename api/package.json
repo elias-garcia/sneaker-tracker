@@ -26,6 +26,7 @@
     "@bugsnag/plugin-express": "^6.0.0",
     "express": "^4.16.4",
     "firebase-admin": "^7.0.0",
-    "mongoose": "^5.4.17"
+    "mongoose": "^5.4.17",
+    "shared": "file:../shared/dist/shared-1.0.0.tgz"
   }
 }

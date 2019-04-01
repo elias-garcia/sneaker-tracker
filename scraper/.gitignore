@@ -1,11 +1,2 @@
-# Dependency directories
-node_modules/
-
-# Compiled binaries
-dist/
-
-# Logs
-npm-debug.log*
-
 # Config
 src/config/scraper.config.ts

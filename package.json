@@ -2,13 +2,14 @@
   "name": "sneaker-tracker",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": "9.11.1"
+  },
   "scripts": {
-    "prebuild-api": "npm run install-api-dependencies",
     "build-api": "npm run build --prefix ./api",
-    "prebuild-scraper": "npm run install-scraper-dependencies",
     "build-scraper": "npm run build --prefix ./scraper",
-    "prebuild-shared": "npm run install-shared-dependencies",
     "build-shared": "npm run pack --prefix ./shared",
+    "prebuild": "npm run install-shared-dependencies && npm run build-shared && npm run install-api-dependencies && npm run install-scraper-dependencies",
     "build": "npm run build-shared && npm run build-api && npm run build-scraper",
     "install-api-dependencies": "npm install --prefix ./api",
     "install-scraper-dependencies": "npm install --prefix ./scraper",
@@ -17,7 +18,8 @@
     "lint-scraper": "npm run lint --prefix ./scraper",
     "lint-shared": "npm run lint --prefix ./shared",
     "lint": "npm run lint-shared && npm run lint-api && npm run lint-scraper",
-    "test": "echo \"tests finished :_D\""
+    "start-api": "node ./api/dist/api.js",
+    "start-scraper": "node ./scraper/dist/scraper.js"
   },
   "repository": {
     "type": "git",

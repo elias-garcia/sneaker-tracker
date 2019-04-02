@@ -12,7 +12,7 @@
     "build": "npm run build-shared && npm run build-api && npm run build-scraper",
     "install-api-dependencies": "cd ./api && npm i --verbose",
     "install-scraper-dependencies": "cd ./scraper && npm i",
-    "install-shared-dependencies": "cd ./scraper && npm i",
+    "install-shared-dependencies": "cd ./shared && npm i",
     "lint-api": "cd ./api && npm run lint",
     "lint-scraper": "cd ./scraper && npm run lint",
     "lint-shared": "cd ./shared && npm run lint",

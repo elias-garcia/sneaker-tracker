@@ -13,7 +13,7 @@
     "build": "npm run build-api && npm run build-scraper",
     "install-api-dependencies": "npm install --prefix ./api",
     "install-scraper-dependencies": "npm install --prefix ./scraper",
-    "install-shared-dependencies": "npm install --prefix ./shared",
+    "install-shared-dependencies": "npm install --prefix ./shared -dd",
     "lint-api": "npm run lint --prefix ./api",
     "lint-scraper": "npm run lint --prefix ./scraper",
     "lint-shared": "npm run lint --prefix ./shared",

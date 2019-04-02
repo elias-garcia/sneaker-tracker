@@ -1,4 +1,3 @@
-// tslint:disable:max-line-length
 import { config } from "dotenv";
 
 if (process.env.NODE_ENV === "development") {

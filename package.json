@@ -10,7 +10,7 @@
     "prebuild-shared": "npm run install-shared-dependencies",
     "build-shared": "cd ./shared && npm run pack",
     "build": "npm run build-shared && npm run build-api && npm run build-scraper",
-    "install-api-dependencies": "cd ./api && npm i --verbose",
+    "install-api-dependencies": "cd ./api && npm i",
     "install-scraper-dependencies": "cd ./scraper && npm i",
     "install-shared-dependencies": "cd ./shared && npm i",
     "lint-api": "cd ./api && npm run lint",

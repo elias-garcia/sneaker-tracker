@@ -6,6 +6,7 @@
   "scripts": {
     "prebuild": "rm -rf ./dist",
     "build": "tsc",
+    "preinstall": "npm install ../shared/dist/shared-1.0.0.tgz",
     "lint": "tslint -p tsconfig.json",
     "lint:fix": "tslint -p tsconfig.json --fix",
     "start": "node dist/api.js",

@@ -15,11 +15,9 @@
   ],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "typescript": "^3.3.3333"
-  },
   "devDependencies": {
     "@types/mongoose": "^5.3.24",
-    "tslint": "^5.12.1"
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.3333"
   }
 }

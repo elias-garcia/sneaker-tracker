@@ -17,7 +17,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/mongoose": "^5.3.24",
-    "tslint": "^5.12.1",
-    "typescript": "^3.3.3333"
+    "tslint": "^5.15.0",
+    "typescript": "^3.4.2"
   }
 }

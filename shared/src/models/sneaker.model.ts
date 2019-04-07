@@ -1,6 +1,10 @@
+import { Model, model, Schema } from "mongoose";
 import { Gender } from "../enums";
+import { ISneaker } from "../interfaces/sneaker.interface";
 
-export const sneakerSchema = {
+export const SNEAKER_MODEL_NAME = "Sneaker";
+
+const sneakerSchema: Schema<ISneaker> = new Schema({
   currency: {
     required: true,
     type: String,
@@ -29,6 +33,6 @@ export const sneakerSchema = {
     required: true,
     type: String,
   },
-};
+});
 
-// export const Sneaker: Model<ISneaker> = model("Sneaker", sneakerSchema);
+export const Sneaker: Model<ISneaker> = model(SNEAKER_MODEL_NAME, sneakerSchema);

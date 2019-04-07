@@ -1,5 +1,6 @@
+import { Document } from "mongoose";
 
-export interface ISneaker {
+export interface ISneaker extends Document {
   name: string;
   description?: string;
   image: string;

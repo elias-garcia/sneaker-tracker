@@ -1,5 +1,4 @@
-import { SchemaDefinition } from "mongoose";
 
-export const shopSchema: SchemaDefinition = {
+export const shopSchema = {
 
 };

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { shopsRoutes } from "./shops/shops.routes";
+import { shopsRoutes } from "./shop/shop.routes";
 
 export const routes = Router()
   .use("/shops", shopsRoutes);

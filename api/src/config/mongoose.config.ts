@@ -8,6 +8,7 @@ export async function configureMongoose() {
 
   mongoose.connection.on("error", (err) => {
     console.log(`[db] Mongoose connection error: ${err}`);
+    process.exit(1);
   });
 
   await mongoose.connect(apiConfig.mongoUri, { useNewUrlParser: true });

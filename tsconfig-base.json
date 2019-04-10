@@ -3,5 +3,8 @@
     "target": "es6",
     "module": "commonjs",
     "skipLibCheck": true,
+  },
+  "rules": {
+    "object-literal-sort-keys": false
   }
 }

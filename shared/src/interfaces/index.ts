@@ -1,2 +1,2 @@
-export * from "./shop-schema.interface";
+export * from "./shop.interface";
 export * from "./sneaker.interface";

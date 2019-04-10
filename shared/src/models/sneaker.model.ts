@@ -6,16 +6,16 @@ export const SNEAKER_MODEL_NAME = "Sneaker";
 
 const sneakerSchema: Schema<ISneaker> = new Schema({
   currency: {
-    required: true,
     type: String,
+    required: true,
   },
   description: {
     type: String,
   },
   gender: {
+    type: String,
     enum: Object.keys(Gender).map((key: string) => Gender[key]),
     required: true,
-    type: String,
   },
   image: {
     required: true,

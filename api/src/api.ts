@@ -4,6 +4,7 @@ import * as express from "express";
 import { apiConfig } from "./config/api.config";
 import { configureFirebaseAdmin } from "./config/firebase-admin.config";
 import { configureMongoose } from "./config/mongoose.config";
+import { errorMiddleware } from "./middlewares/error.middleware";
 import { routes } from "./routes";
 
 const app: express.Express = express();
@@ -19,6 +20,7 @@ const bugsnagMiddleware = bugsnagClient.getPlugin("express");
   app.use(bugsnagMiddleware.requestHandler);
   app.use(express.json());
   app.use(apiConfig.apiPath, routes);
+  app.use(errorMiddleware);
   app.use(bugsnagMiddleware.errorHandler);
   app.listen(apiConfig.port, () => {
     console.log(`[server] started on port ${apiConfig.port}`);

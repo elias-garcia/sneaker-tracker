@@ -1,15 +1,19 @@
 import { Gender, NodeProperty, Pagination } from "../enums";
 
-export interface IShopSchema {
+export interface IShop {
   name: string;
   logo: string;
-  urls: IProductsUrlData[];
+  scrapingData: IScrapingData;
+}
+
+export interface IScrapingData {
+  urls: IProductUrlData[];
   paginationData: IPaginationData;
   productSelector: string;
   productFieldsSelectors: IProductFieldsSelectors;
 }
 
-export interface IProductsUrlData {
+export interface IProductUrlData {
   gender: Gender;
   url: string;
 }

@@ -3,10 +3,9 @@ import { IShop } from "./shop.interface";
 
 export interface ISneakerSizesData {
   shop: string | IShop;
-  sizes: number[];
+  sizes: string[];
   mostRecentPrice: number;
   currency: string;
-  priceHistory: string[] | [];
 }
 
 export interface ISneaker extends Document {
@@ -14,5 +13,5 @@ export interface ISneaker extends Document {
   name: string;
   description?: string;
   image: string;
-  availability: ISneakerSizesData[];
+  sizesData: ISneakerSizesData[];
 }

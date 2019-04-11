@@ -1,4 +1,4 @@
-import { configureMongoose } from "shared/config/moongose.config";
+import { configureMongoose } from "shared/config";
 import { configureBrowser, configurePage } from "./config/puppeteer.config";
 import { scraperConfig } from "./config/scraper.config";
 import { shopsScrapingData } from "./data";

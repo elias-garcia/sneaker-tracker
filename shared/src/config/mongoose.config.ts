@@ -6,7 +6,7 @@ export async function configureMongoose(mongoUri: string) {
   });
 
   mongoose.connection.on("error", (err) => {
-    console.log(`[db] Mongoose connection error: ${err}`);
+    console.log(`[db] mongoose connection error: ${err}`);
     process.exit(1);
   });
 

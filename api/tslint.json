@@ -1,8 +1,5 @@
 {
   "extends": [
-    "tslint:recommended"
-  ],
-  "rules": {
-    "no-console": false
-  }
+    "../tslint-base.json"
+  ]
 }

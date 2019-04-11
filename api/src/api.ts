@@ -1,9 +1,9 @@
 import bugsnag, { Bugsnag } from "@bugsnag/js";
 import bugsnagExpress from "@bugsnag/plugin-express";
 import * as express from "express";
+import { configureMongoose } from "shared/config";
 import { apiConfig } from "./config/api.config";
 import { configureFirebaseAdmin } from "./config/firebase-admin.config";
-import { configureMongoose } from "./config/mongoose.config";
 import { errorMiddleware } from "./middlewares/error.middleware";
 import { notImplementedMiddleware } from "./middlewares/not-implemented.middleware";
 import { routes } from "./routes";
@@ -16,7 +16,7 @@ bugsnagClient.use(bugsnagExpress);
 const bugsnagMiddleware = bugsnagClient.getPlugin("express");
 
 (async () => {
-  await configureMongoose();
+  await configureMongoose(apiConfig.mongoUri);
   configureFirebaseAdmin();
   app.use(bugsnagMiddleware.requestHandler);
   app.use(express.json());

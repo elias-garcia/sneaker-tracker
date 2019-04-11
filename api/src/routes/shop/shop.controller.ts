@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { create, findAll } from "./shop.service";
+import { toDtoCollection } from "shared/utils";
+import * as shopService from "./shop.service";
 
 export async function createShop(
   req: Request,
@@ -7,7 +8,7 @@ export async function createShop(
   next: NextFunction,
 ) {
   try {
-    const createdShop = await create(req.body);
+    const createdShop = await shopService.create(req.body);
 
     return res.status(201).json(createdShop);
   } catch (err) {
@@ -21,9 +22,9 @@ export async function findAllShops(
   next: NextFunction,
 ) {
   try {
-    const allShops = await findAll();
+    const allShops = await shopService.findAll();
 
-    return res.status(200).json(allShops);
+    return res.status(200).json(toDtoCollection(allShops));
   } catch (err) {
     return next(err);
   }

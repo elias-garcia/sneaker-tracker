@@ -18,21 +18,22 @@ const sneakerSchema: Schema<ISneaker> = new Schema({
     required: true,
   },
   image: {
-    required: true,
     type: String,
+    required: true,
   },
   name: {
-    required: true,
     type: String,
+    required: true,
   },
   price: {
-    required: true,
     type: Number,
+    required: true,
   },
   ref: {
-    required: true,
     type: String,
+    required: true,
+    unique: true,
   },
-});
+}, { timestamps: true });
 
 export const Sneaker: Model<ISneaker> = model(SNEAKER_MODEL_NAME, sneakerSchema);

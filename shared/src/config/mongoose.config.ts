@@ -1,9 +1,8 @@
 import * as mongoose from "mongoose";
-import { apiConfig } from "./api.config";
 
-export async function configureMongoose() {
+export async function configureMongoose(mongoUri: string) {
   mongoose.connection.on("connected", async () => {
-    console.log(`[db] mongoose connection open to ${apiConfig.mongoUri}`);
+    console.log(`[db] mongoose connection open to ${mongoUri}`);
   });
 
   mongoose.connection.on("error", (err) => {
@@ -11,7 +10,10 @@ export async function configureMongoose() {
     process.exit(1);
   });
 
-  await mongoose.connect(apiConfig.mongoUri, { useNewUrlParser: true });
+  await mongoose.connect(mongoUri, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+  });
 
   process.on("SIGINT", () => {
     mongoose.connection.close(() => {

@@ -37,6 +37,7 @@ export interface IProductFieldsSelectors {
   image: IProductFieldSelectorData;
   price: IProductFieldSelectorData;
   currency: IProductFieldSelectorData;
+  sizes: IProductFieldSelectorData;
   ref: IProductFieldSelectorData;
 }
 

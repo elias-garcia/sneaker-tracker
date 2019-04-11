@@ -1,8 +1,7 @@
-import { Gender, NodeProperty, Pagination, ShopScrapingData } from "../interfaces/shop-scraping-data.interface";
+import { Gender, NodeProperty, Pagination } from "shared/enums";
+import { IScrapingData } from "shared/interfaces";
 
-export const nike: ShopScrapingData = {
-  name: "Nike",
-  logo: "",
+export const nike: IScrapingData = {
   urls: [
     {
       gender: Gender.Man,
@@ -17,7 +16,7 @@ export const nike: ShopScrapingData = {
     type: Pagination.InfiniteScroll,
   },
   productSelector: "div.grid-item-image-wrapper > a",
-  productDataSelectors: {
+  productFieldsSelectors: {
     name: {
       selector: "h1#pdp_product_title",
       property: NodeProperty.InnerText,
@@ -37,6 +36,15 @@ export const nike: ShopScrapingData = {
     currency: {
       selector: 'meta[property="og:price:currency"]',
       property: NodeProperty.Content,
+    },
+    sizes: {
+      selector: 'div[name="skuAndSize"] > input:not(:disabled) + label',
+      property: NodeProperty.InnerText,
+      textProcessingData: {
+        regExpData: {
+          regExp: "(?<=EU\s).*",
+        },
+      },
     },
     ref: {
       selector: 'meta[itemprop="productID"]',

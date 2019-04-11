@@ -1,8 +1,7 @@
-import { Gender, NodeProperty, Pagination, ShopScrapingData } from "../interfaces/shop-scraping-data.interface";
+import { Gender, NodeProperty, Pagination } from "shared/enums";
+import { IScrapingData } from "shared/interfaces";
 
-export const adidas: ShopScrapingData = {
-  name: "Adidas",
-  logo: "",
+export const adidas: IScrapingData = {
   urls: [
     {
       gender: Gender.Man,
@@ -14,13 +13,13 @@ export const adidas: ShopScrapingData = {
     },
   ],
   paginationData: {
-    type: Pagination.Enumeration,
+    type: Pagination.Numbered,
     data: {
       nextPageSelector: '[class*="pagination__control--next"] > a',
     },
   },
   productSelector: "div.gl-product-card__details > a",
-  productDataSelectors: {
+  productFieldsSelectors: {
     name: {
       selector: 'meta[itemprop="name"]',
       property: NodeProperty.Content,
@@ -40,6 +39,10 @@ export const adidas: ShopScrapingData = {
     currency: {
       selector: 'meta[itemprop="priceCurrency"]',
       property: NodeProperty.Content,
+    },
+    sizes: {
+      selector: 'div[data-auto-id="size-selector"] li.gl-menu__item',
+      property: NodeProperty.Title,
     },
     ref: {
       selector: 'meta[itemprop="sku"]',

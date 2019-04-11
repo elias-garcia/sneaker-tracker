@@ -1,8 +1,7 @@
-import { Gender, NodeProperty, Pagination, ShopScrapingData } from "../interfaces/shop-scraping-data.interface";
+import { Gender, NodeProperty, Pagination } from "shared/enums";
+import { IScrapingData } from "shared/interfaces";
 
-export const footLocker: ShopScrapingData = {
-  name: "Foo Locker",
-  logo: "",
+export const footLocker: IScrapingData = {
   urls: [
     {
       gender: Gender.Man,
@@ -21,7 +20,7 @@ export const footLocker: ShopScrapingData = {
     },
   },
   productSelector: "div.fl-product-tile--details > a",
-  productDataSelectors: {
+  productFieldsSelectors: {
     name: {
       selector: 'meta[itemprop="name"]',
       property: NodeProperty.Content,
@@ -41,6 +40,11 @@ export const footLocker: ShopScrapingData = {
     currency: {
       selector: 'meta[itemprop="priceCurrency"]',
       property: NodeProperty.Content,
+    },
+    sizes: {
+      // tslint:disable-next-line:max-line-length
+      selector: 'div[data-toggle-container="productSizeSelectionContainer"] section:nth-of-type(1) button:not(.fl-product-size--item__not-available) span',
+      property: NodeProperty.InnerText,
     },
     ref: {
       selector: 'meta[itemprop="og:description"]',

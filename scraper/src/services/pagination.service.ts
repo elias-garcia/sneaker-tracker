@@ -1,10 +1,6 @@
 import { Page } from "puppeteer";
-import {
-  EnumerationPaginationData,
-  LoadMorePaginationData,
-  Pagination,
-  PaginationData,
- } from "../interfaces/shop-scraping-data.interface";
+import { Pagination } from "shared/enums";
+import { ILoadMorePaginationData, INumberedPaginationData, IPaginationData } from "shared/interfaces";
 
 async function autoScroll(
   page: Page,
@@ -48,9 +44,9 @@ async function autoScroll(
   return productLinks;
 }
 
-async function enumeratedPages(
+async function numberedPages(
   page: Page,
-  data: EnumerationPaginationData,
+  data: INumberedPaginationData,
   productSelector: string,
 ): Promise<string[]> {
   const nextPageSelector = data.nextPageSelector;
@@ -93,7 +89,7 @@ async function enumeratedPages(
 
 async function loadMore(
   page: Page,
-  data: LoadMorePaginationData,
+  data: ILoadMorePaginationData,
   productSelector: string,
 ): Promise<string[]> {
   const nextPageSelector = data.nextPageSelector;
@@ -137,22 +133,22 @@ async function loadMore(
 
 export function getProductLinks(
   page: Page,
-  paginationData: PaginationData,
+  paginationData: IPaginationData,
   productSelector: string,
 ): Promise<string[]> {
   switch (paginationData.type) {
     case Pagination.InfiniteScroll:
       return autoScroll(page, productSelector);
-    case Pagination.Enumeration:
-      return enumeratedPages(
+    case Pagination.Numbered:
+      return numberedPages(
         page,
-        paginationData.data as EnumerationPaginationData,
+        paginationData.data as INumberedPaginationData,
         productSelector,
       );
     case Pagination.LoadMore:
       return loadMore(
         page,
-        paginationData.data as LoadMorePaginationData,
+        paginationData.data as ILoadMorePaginationData,
         productSelector,
       );
   }

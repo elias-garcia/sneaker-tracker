@@ -1,8 +1,10 @@
+import { Types } from "mongoose";
 import { configureMongoose } from "shared/config";
 import { configureBrowser, configurePage } from "./config/puppeteer.config";
 import { scraperConfig } from "./config/scraper.config";
 import { shopsScrapingData } from "./data";
-import { Sneaker } from "./interfaces/sneaker.interface";
+import { ISneakerScrapingFields } from "./interfaces/sneaker.interface";
+import { saveSneakers } from "./services/database.service";
 import { getProductLinks } from "./services/pagination.service";
 import { extractProductData } from "./services/product.service";
 
@@ -18,18 +20,20 @@ async function run(): Promise<any> {
       shopData.paginationData,
       shopData.productSelector,
     );
+    const scrapedSneakersData = [];
 
-    console.log(productLinks.length);
-
-    for (let i = 0; i <= productLinks.length; i++) {
-      const sneakerData: Sneaker = await extractProductData(
+    // for (let i = 0; i <= productLinks.length; i++) {
+    for (let i = 0; i <= 5; i++) {
+      const sneakerData: ISneakerScrapingFields = await extractProductData(
         page,
         productLinks[i],
-        shopData.productDataSelectors,
+        shopData.productFieldsSelectors,
       );
 
-      console.log(sneakerData);
+      scrapedSneakersData.push(sneakerData);
     }
+
+    saveSneakers(scrapedSneakersData, Types.ObjectId());
   }
 
 }

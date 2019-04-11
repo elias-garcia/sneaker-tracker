@@ -1,13 +1,13 @@
-import { Page } from "puppeteer";
-import { RegExpData, SelectorData, TextReplaceData } from "../interfaces/shop-scraping-data.interface";
+import { ElementHandle, Page } from "puppeteer";
+import { IProductFieldSelectorData, IRegExpData, ITextReplaceData } from "shared/interfaces";
 
-function createRegExp(regExpData: RegExpData): RegExp {
+function createRegExp(regExpData: IRegExpData): RegExp {
   return regExpData.mode
     ? new RegExp(regExpData.regExp, regExpData.mode)
     : new RegExp(regExpData.regExp);
 }
 
-function processRegExp(text: string, regExpData: RegExpData): string | null {
+function processRegExp(text: string, regExpData: IRegExpData): string | null {
   const regExp = createRegExp(regExpData);
   const matchResult = text.match(regExp);
 
@@ -16,33 +16,55 @@ function processRegExp(text: string, regExpData: RegExpData): string | null {
     : null;
 }
 
-function processTextReplace(text: string, textReplaceData: TextReplaceData): string {
+function processTextReplace(text: string, textReplaceData: ITextReplaceData): string {
   const regExp = createRegExp(textReplaceData.regExpData);
 
   return text.replace(regExp, textReplaceData.replaceWith);
 }
 
-export async function processSelector(
-  page: Page,
-  selectorData: SelectorData,
-): Promise<string | null> {
-  const node = await page.$(selectorData.selector);
-  let processedText = null;
+async function processOneNode(
+  node: ElementHandle,
+  selectorData: IProductFieldSelectorData,
+): Promise<string> {
+  const processingData = selectorData.textProcessingData;
+  let processedText;
 
-  if (node) {
-    const processingData = selectorData.textProcessingData;
+  processedText = await (await node.getProperty(selectorData.property)).jsonValue();
 
-    processedText = await (await node.getProperty(selectorData.property)).jsonValue();
-
-    if (processingData && processingData.regExpData) {
-      processedText = processRegExp(processedText, processingData.regExpData);
-    }
-    if (processingData && processingData.textReplaceData) {
-      processedText = processTextReplace(processedText, processingData.textReplaceData);
-    }
-
-    processedText = processedText.trim();
+  if (processingData && processingData.regExpData) {
+    processedText = processRegExp(processedText, processingData.regExpData);
+  }
+  if (processingData && processingData.textReplaceData) {
+    processedText = processTextReplace(processedText, processingData.textReplaceData);
   }
 
+  processedText = processedText.trim();
+
   return processedText;
+}
+
+async function processMultipleNodes(
+  nodes: ElementHandle[],
+  selectorData: IProductFieldSelectorData,
+): Promise<string[]> {
+  return await Promise.all(
+    nodes.map((node: ElementHandle) => processOneNode(node, selectorData)),
+  );
+}
+
+export async function processSelector(
+  page: Page,
+  selectorData: IProductFieldSelectorData,
+): Promise<string | string[] | null> {
+  const nodes = await page.$$(selectorData.selector);
+
+  if (nodes.length === 1) {
+    return await processOneNode(nodes[0], selectorData);
+  }
+
+  if (nodes.length > 1) {
+    return await processMultipleNodes(nodes, selectorData);
+  }
+
+  return null;
 }

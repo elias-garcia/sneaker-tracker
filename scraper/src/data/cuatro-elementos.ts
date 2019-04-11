@@ -1,8 +1,7 @@
-import { Gender, NodeProperty, Pagination, ShopScrapingData } from "../interfaces/shop-scraping-data.interface";
+import { Gender, NodeProperty, Pagination } from "shared/enums";
+import { IScrapingData } from "shared/interfaces";
 
-export const cuatroElementos: ShopScrapingData = {
-  name: "4 Elementos",
-  logo: "",
+export const cuatroElementos: IScrapingData = {
   urls: [
     {
       gender: Gender.Man,
@@ -14,13 +13,13 @@ export const cuatroElementos: ShopScrapingData = {
     },
   ],
   paginationData: {
-    type: Pagination.Enumeration,
+    type: Pagination.Numbered,
     data: {
       nextPageSelector: ".next.js-search-link",
     },
   },
   productSelector: "article.product-miniature > div > div > a",
-  productDataSelectors: {
+  productFieldsSelectors: {
     name: {
       selector: "div#product-info-wrapper > h1",
       property: NodeProperty.InnerText,
@@ -32,10 +31,23 @@ export const cuatroElementos: ShopScrapingData = {
     price: {
       selector: 'meta[property="product:price:amount"]',
       property: NodeProperty.Content,
+      textProcessingData: {
+        textReplaceData: {
+          regExpData: {
+            regExp: ",",
+            mode: "g",
+          },
+          replaceWith: ".",
+        },
+      },
     },
     currency: {
       selector: 'meta[property="product:price:currency"]',
       property: NodeProperty.Content,
+    },
+    sizes: {
+      selector: 'div[id="size-pane"] label > span',
+      property: NodeProperty.InnerText,
     },
     ref: {
       selector: "div#product-info-wrapper > h1",

@@ -1,8 +1,7 @@
-import { Gender, NodeProperty, Pagination, ShopScrapingData } from "../interfaces/shop-scraping-data.interface";
+import { Gender, NodeProperty, Pagination } from "shared/enums";
+import { IScrapingData } from "shared/interfaces";
 
-export const consuelaStore: ShopScrapingData = {
-  name: "Consuela Store",
-  logo: "",
+export const consuelaStore: IScrapingData = {
   urls: [
     {
       gender: Gender.Man,
@@ -14,13 +13,13 @@ export const consuelaStore: ShopScrapingData = {
     },
   ],
   paginationData: {
-    type: Pagination.Enumeration,
+    type: Pagination.Numbered,
     data: {
       nextPageSelector: ".pagination_next > a",
     },
   },
   productSelector: "div > a.product-name",
-  productDataSelectors: {
+  productFieldsSelectors: {
     name: {
       selector: 'meta[itemProp="name"]',
       property: NodeProperty.Content,
@@ -45,10 +44,23 @@ export const consuelaStore: ShopScrapingData = {
     price: {
       selector: 'meta[property="og:price:amount"]',
       property: NodeProperty.Content,
+      textProcessingData: {
+        textReplaceData: {
+          regExpData: {
+            regExp: ",",
+            mode: "g",
+          },
+          replaceWith: ".",
+        },
+      },
     },
     currency: {
       selector: 'meta[itemProp="priceCurrency"]',
       property: NodeProperty.Content,
+    },
+    sizes: {
+      selector: ".talla > .swatch-size.available > input",
+      property: NodeProperty.Value,
     },
     ref: {
       selector: "div.panel-body",

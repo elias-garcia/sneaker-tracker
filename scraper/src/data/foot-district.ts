@@ -1,8 +1,7 @@
-import { Gender, NodeProperty, Pagination, ShopScrapingData } from "../interfaces/shop-scraping-data.interface";
+import { Gender, NodeProperty, Pagination } from "shared/enums";
+import { IScrapingData } from "shared/interfaces";
 
-export const footDistrict: ShopScrapingData = {
-  name: "Foot District",
-  logo: "",
+export const footDistrict: IScrapingData = {
   urls: [
     {
       gender: Gender.Man,
@@ -14,13 +13,13 @@ export const footDistrict: ShopScrapingData = {
     },
   ],
   paginationData: {
-    type: Pagination.Enumeration,
+    type: Pagination.Numbered,
     data: {
       nextPageSelector: "a.next",
     },
   },
   productSelector: "h2.product-name > a",
-  productDataSelectors: {
+  productFieldsSelectors: {
     name: {
       selector: 'meta[itemprop="name"]',
       property: NodeProperty.Content,
@@ -40,6 +39,10 @@ export const footDistrict: ShopScrapingData = {
     currency: {
       selector: 'meta[itemprop="priceCurrency"]',
       property: NodeProperty.Content,
+    },
+    sizes: {
+      selector: "div.product-options select > option:not(:disabled):not(:first-child)",
+      property: NodeProperty.InnerText,
     },
     ref: {
       selector: 'meta[itemprop="productID"]',

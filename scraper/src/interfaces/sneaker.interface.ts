@@ -1,15 +1,15 @@
-export interface Sneaker {
+export interface ISneakerScrapingFields {
   name?: string | null;
   description?: string | null;
   image?: string | null;
-  sizes?: { [size: number]: boolean; };
+  sizes?: string[];
   price?: string | null;
   currency?: string | null;
   url?: string | null;
   ref?: string | null;
 }
 
-export interface SneakerNodes {
+export interface ISneakerNodes {
   name: Element | null;
   description?: Element | null;
   image: Element | null;

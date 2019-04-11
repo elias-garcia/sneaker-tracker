@@ -1,8 +1,7 @@
-import { Gender, NodeProperty, Pagination, ShopScrapingData } from "../interfaces/shop-scraping-data.interface";
+import { Gender, NodeProperty, Pagination } from "shared/enums";
+import { IScrapingData } from "shared/interfaces";
 
-export const footshop: ShopScrapingData = {
-  name: "Footshop",
-  logo: "",
+export const footshop: IScrapingData = {
   urls: [
     {
       gender: Gender.Man,
@@ -21,7 +20,7 @@ export const footshop: ShopScrapingData = {
     },
   },
   productSelector: 'a[class*="Product_link"]',
-  productDataSelectors: {
+  productFieldsSelectors: {
     name: {
       selector: 'meta[property="og:title"]',
       property: NodeProperty.Content,
@@ -50,6 +49,10 @@ export const footshop: ShopScrapingData = {
     currency: {
       selector: 'meta[itemprop="priceCurrency"]',
       property: NodeProperty.Content,
+    },
+    sizes: {
+      selector: 'div[id="size-picker"] li > div:nth-child(2)',
+      property: NodeProperty.InnerText,
     },
     ref: {
       selector: 'div#about-product strong[itemprop="sku"]',

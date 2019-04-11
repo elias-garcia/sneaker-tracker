@@ -1,8 +1,7 @@
-import { Gender, NodeProperty, Pagination, ShopScrapingData } from "../interfaces/shop-scraping-data.interface";
+import { Gender, NodeProperty, Pagination } from "shared/enums";
+import { IScrapingData } from "shared/interfaces";
 
-export const jdSports: ShopScrapingData = {
-  name: "JD Sports",
-  logo: "",
+export const jdSports: IScrapingData = {
   urls: [
     {
       gender: Gender.Man,
@@ -14,13 +13,13 @@ export const jdSports: ShopScrapingData = {
     },
   ],
   paginationData: {
-    type: Pagination.Enumeration,
+    type: Pagination.Numbered,
     data: {
       nextPageSelector: 'a[rel="next"]',
     },
   },
   productSelector: "span.itemTitle > a",
-  productDataSelectors: {
+  productFieldsSelectors: {
     name: {
       selector: 'meta[itemprop="name"]',
       property: NodeProperty.Content,
@@ -40,6 +39,10 @@ export const jdSports: ShopScrapingData = {
     currency: {
       selector: 'meta[itemprop="priceCurrency"]',
       property: NodeProperty.Content,
+    },
+    sizes: {
+      selector: 'div[id="productSizeStock"] > button',
+      property: NodeProperty.InnerText,
     },
     ref: {
       selector: 'meta[itemprop="productID"]',

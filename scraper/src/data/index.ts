@@ -1,6 +1,6 @@
-import { ShopScrapingData } from "../interfaces/shop-scraping-data.interface";
+import { IScrapingData } from "shared/interfaces";
 import { consuelaStore } from "./consuela-store";
 
-export const shopsScrapingData: ShopScrapingData[] = [
+export const shopsScrapingData: IScrapingData[] = [
   consuelaStore,
 ];

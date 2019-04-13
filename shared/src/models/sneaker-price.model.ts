@@ -4,6 +4,7 @@ import { SHOP_MODEL_NAME } from "./shop.model";
 import { SNEAKER_MODEL_NAME } from "./sneaker.model";
 
 const SNEAKER_PRICE_MODEL_NAME = "Sneaker Price";
+const SNEAKER_PRICE_COLLECTION_NAME = "sneaker-prices";
 
 const sneakerPriceSchema: Schema<ISneakerPrice> = new Schema({
   sneaker: {
@@ -24,9 +25,10 @@ const sneakerPriceSchema: Schema<ISneakerPrice> = new Schema({
     type: String,
     required: true,
   },
-});
+}, { timestamps: true });
 
 export const SneakerPrice: Model<ISneakerPrice> = model(
   SNEAKER_PRICE_MODEL_NAME,
   sneakerPriceSchema,
+  SNEAKER_PRICE_COLLECTION_NAME,
 );

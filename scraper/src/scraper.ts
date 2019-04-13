@@ -33,7 +33,11 @@ async function run(): Promise<any> {
       scrapedSneakersData.push(sneakerData);
     }
 
-    saveSneakers(scrapedSneakersData, Types.ObjectId());
+    saveSneakers(
+      scrapedSneakersData,
+      Types.ObjectId(),
+      shopData.urls[0].gender,
+    );
   }
 
 }

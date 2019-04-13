@@ -21,8 +21,8 @@ export const consuelaStore: IScrapingData = {
   productSelector: "div > a.product-name",
   productFieldsSelectors: {
     name: {
-      selector: 'meta[itemProp="name"]',
-      property: NodeProperty.Content,
+      selector: 'h1[itemProp="name"]',
+      property: NodeProperty.InnerText,
     },
     description: {
       selector: "div.panel-body",

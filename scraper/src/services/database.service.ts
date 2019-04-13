@@ -1,91 +1,108 @@
-import { NativeError } from "mongoose";
-import { Sneaker } from "shared/models";
+import { Gender } from "shared/enums";
+import { ISneaker, ISneakerPrice, ISneakerSizesData } from "shared/interfaces";
+import { Sneaker, SneakerPrice } from "shared/models";
 import { ISneakerScrapingFields } from "../interfaces/sneaker.interface";
 
-// function createSneakerBulkOp(
-//   sneaker: ISneaker,
-//   shopId: string,
-// ): any {
-//   return {
-//     updateOne: {
-//       filter: { "ref": sneaker.ref, "sizesData.shop": shopId },
-//       update: {
-//         $set: {
-//           "sizesData.$": { $max: { mostRecentPrice: sneaker.price } },
-//         },
-//       },
-//       upsert: true,
-//     },
-//   };
-// }
+function createSneaker(
+  sneaker: ISneakerScrapingFields,
+  shopId: string,
+  gender: Gender,
+): Promise<ISneaker> {
+  console.log(sneaker);
+  return Sneaker.create({
+    ref: sneaker.ref,
+    name: sneaker.name,
+    gender,
+    description: sneaker.description,
+    image: sneaker.image,
+    sizesData: {
+      shop: shopId,
+      sizes: sneaker.sizes,
+      mostRecentPrice: sneaker.price,
+      currency: sneaker.currency,
+    },
+  });
+}
 
-// function createSneakerPriceBulkOp(
-//   sneaker: ISneaker,
-//   shopId: string,
-// ): any {
-//   return {
-//     insertOne: {
-//       document: {
-//         sneaker: sneaker.ref,
-//         shop: shopId,
-//         price: sneaker.price,
-//         currency: sneaker.currency,
-//       },
-//     },
-//   };
-// }
+function updateSneaker(
+  sneakerScrapingData: ISneakerScrapingFields,
+  sneaker: ISneaker,
+  shopId: string,
+): Promise<ISneaker> {
+  const sneakerSizesDataFound = sneaker.sizesData.find(
+    (value: ISneakerSizesData) => value.shop === shopId,
+  );
+  const newPrice = Number(sneakerScrapingData.price);
 
-// export function saveSneakers(
-//   sneakers: ISneaker[],
-//   shopId: string,
-// ): Array<Promise<BulkWriteOpResultObject>> {
-//   const sneakerBulkOps = [];
-//   const sneakerPriceBulkOps = [];
+  if (sneakerSizesDataFound) {
+    sneakerSizesDataFound.mostRecentPrice = newPrice;
+  } else {
+    sneaker.sizesData.push({
+      shop: shopId,
+      currency: sneakerScrapingData.currency,
+      sizes: sneakerScrapingData.sizes,
+      mostRecentPrice: Number(sneakerScrapingData.price),
+    });
+  }
 
-//   for (const sneaker of sneakers) {
-//     sneakerBulkOps.push(createSneakerBulkOp(sneaker, shopId));
-//     sneakerPriceBulkOps.push(createSneakerPriceBulkOp(sneaker, shopId));
-//   }
+  return sneaker.save();
+}
 
-//   return [
-//     Sneaker.bulkWrite(sneakerBulkOps),
-//     SneakerPrice.bulkWrite(sneakerPriceBulkOps),
-//   ];
-// }
+function createSneakerPrice(
+  sneakerId: string,
+  price: string,
+  currency: string,
+  shopId: string,
+): Promise<ISneakerPrice> {
+  return SneakerPrice.create({
+    sneaker: sneakerId,
+    shop: shopId,
+    price,
+    currency,
+  });
+}
 
-export function saveSneakers(
-  sneakers: ISneakerScrapingFields[],
+async function saveOrUpdateSneaker(
+  sneakerScrapingData: ISneakerScrapingFields,
+  shopId: string,
+  gender: Gender,
+): Promise<ISneaker> {
+  let sneaker = await Sneaker.findOne({ ref: sneakerScrapingData.ref });
+
+  sneaker = sneaker
+    ? await updateSneaker(sneakerScrapingData, sneaker, shopId)
+    : await createSneaker(sneakerScrapingData, shopId, gender);
+
+  await createSneakerPrice(
+    sneaker.id,
+    sneakerScrapingData.price,
+    sneakerScrapingData.currency,
+    shopId,
+  );
+
+  return sneaker;
+}
+
+export async function saveSneakers(
+  sneakersScrapingData: ISneakerScrapingFields[],
   shopId: any,
-): void {
-  for (const sneaker of sneakers) {
-    Sneaker.findOne({ ref: sneaker.ref }).exec()
-      .then((doc: ISneakerScrapingFields) => {
-        if (doc) {
-          Sneaker.updateOne(
-            { "ref": sneaker.ref, "sizesData.shop": shopId },
-            { $set: { "sizesData.$": { $max: { mostRecentPrice: sneaker.price } } } },
-            { upsert: true },
-          ).exec((err: NativeError, res: any) => {
-            console.log("error", err);
-            console.log("res", res);
-          });
-        } else {
-          Sneaker.create({
-            ref: sneaker.ref,
-            name: sneaker.name,
-            gender: "Man",
-            description: sneaker.description,
-            image: sneaker.image,
-            sizesData: {
-              shop: shopId,
-              sizes: sneaker.sizes,
-              mostRecentPrice: sneaker.price,
-              currency: sneaker.currency,
-            },
-          }).then((createdDoc: ISneakerScrapingFields) => {
-            console.log(createdDoc);
-          });
-        }
-      });
+  gender: Gender,
+): Promise<void> {
+  const promises = sneakersScrapingData.map(
+    (sneakerScrapingData: ISneakerScrapingFields) => {
+      return saveOrUpdateSneaker(
+        sneakerScrapingData,
+        shopId,
+        gender,
+      );
+    },
+  );
+
+  try {
+    const results = await Promise.all(promises);
+
+    console.log(results);
+  } catch (e) {
+    console.log(e);
   }
 }

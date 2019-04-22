@@ -1,22 +1,22 @@
 import { Page } from "puppeteer";
 import { IProductFieldSelectorData, IProductFieldsSelectors } from "shared/interfaces";
-import { ISneakerScrapingFields } from "../interfaces/sneaker.interface";
+import { ISneakerScrapingFields } from "../interfaces/sneaker-scraping-fields.interface";
 import { processSelector } from "./dom.service";
 
 export async function extractProductData(
   page: Page,
   productLink: string,
-  productDataSelectors: IProductFieldsSelectors,
+  productFieldsSelectors: IProductFieldsSelectors,
 ) {
   try {
     const sneakerData: ISneakerScrapingFields = { url: productLink };
 
     await page.goto(productLink);
-    await page.waitForSelector(productDataSelectors.name.selector);
+    await page.waitForSelector(productFieldsSelectors.name.selector);
 
     await Promise.all(
-      Object.keys(productDataSelectors).map(async (key: string) => {
-        const selectorData: IProductFieldSelectorData = (productDataSelectors as any)[key];
+      Object.keys(productFieldsSelectors).map(async (key: string) => {
+        const selectorData: IProductFieldSelectorData = (productFieldsSelectors as any)[key];
         const value = await processSelector(page, selectorData);
 
         (sneakerData as any)[key] = value;

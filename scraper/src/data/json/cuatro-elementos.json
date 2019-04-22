@@ -1,0 +1,62 @@
+{
+  "name": "4 Elementos",
+  "urls": [
+    {
+      "gender": "Man",
+      "url": "https://4elementos.es/es/7-calzado?genero=hombre"
+    },
+    {
+      "gender": "Woman",
+      "url": "https://4elementos.es/es/7-calzado?genero=mujer"
+    }
+  ],
+  "scrapingData": {
+    "paginationData": {
+      "type": "Numbered",
+      "data": {
+        "nextPageSelector": ".next.js-search-link"
+      }
+    },
+    "productSelector": "article.product-miniature > div > div > a",
+    "productFieldsSelectors": {
+      "name": {
+        "selector": "div#product-info-wrapper > h1",
+        "property": "innerText"
+      },
+      "image": {
+        "selector": "meta[property=\"og:image\"]",
+        "property": "content"
+      },
+      "price": {
+        "selector": "meta[property=\"product:price:amount\"]",
+        "property": "content",
+        "textProcessingData": {
+          "textReplaceData": {
+            "regExpData": {
+              "regExp": ",",
+              "mode": "g"
+            },
+            "replaceWith": "."
+          }
+        }
+      },
+      "currency": {
+        "selector": "meta[property=\"product:price:currency\"]",
+        "property": "content"
+      },
+      "sizes": {
+        "selector": "div[id=\"size-pane\"] label > span",
+        "property": "innerText"
+      },
+      "ref": {
+        "selector": "div#product-info-wrapper > h1",
+        "property": "innerText",
+        "textProcessingData": {
+          "regExpData": {
+            "regExp": "(?!.*\\s).*"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "name": "Footshop",
+  "scrapingData": {
+    "urls": [
+      {
+        "gender": "Man",
+        "url": "https://www.footshop.eu/en/5-mens-shoes/location-available_online"
+      },
+      {
+        "gender": "Woman",
+        "url": "https://www.footshop.eu/en/6-womens-shoes/location-available_online"
+      }
+    ],
+    "paginationData": {
+      "type": "LoadMore",
+      "data": {
+        "nextPageSelector": "button[class*=\"LoadMoreProducts_button\"]",
+        "loaderSelector": "div[class*=\"LoadMoreProducts_loader\"]"
+      }
+    },
+    "productSelector": "a[class*=\"Product_link\"]",
+    "productFieldsSelectors": {
+      "name": {
+        "selector": "meta[property=\"og:title\"]",
+        "property": "content"
+      },
+      "description": {
+        "selector": "div.product__description",
+        "property": "innerText",
+        "textProcessingData": {
+          "textReplaceData": {
+            "regExpData": {
+              "regExp": "\\n",
+              "mode": "g"
+            },
+            "replaceWith": ""
+          }
+        }
+      },
+      "image": {
+        "selector": "meta[property=\"og:image\"]",
+        "property": "content"
+      },
+      "price": {
+        "selector": "meta[property=\"product:price:amount\"]",
+        "property": "content"
+      },
+      "currency": {
+        "selector": "meta[itemprop=\"priceCurrency\"]",
+        "property": "content"
+      },
+      "sizes": {
+        "selector": "div[id=\"size-picker\"] li > div:nth-child(2)",
+        "property": "innerText"
+      },
+      "ref": {
+        "selector": "div#about-product strong[itemprop=\"sku\"]",
+        "property": "content"
+      }
+    }
+  }
+}

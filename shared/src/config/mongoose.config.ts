@@ -1,24 +1,32 @@
-import * as mongoose from "mongoose";
+import { connect, connection, disconnect } from "mongoose";
 
 export async function configureMongoose(mongoUri: string) {
-  mongoose.connection.on("connected", async () => {
+  connection.on("connected", () => {
     console.log(`[db] mongoose connection open to ${mongoUri}`);
   });
 
-  mongoose.connection.on("error", (err) => {
+  connection.on("error", (err: any) => {
     console.log(`[db] mongoose connection error: ${err}`);
     process.exit(0);
   });
 
-  await mongoose.connect(mongoUri, {
+  connection.on("disconnected", () => {
+    console.log(`[db] mongoose connection disconnected`);
+  });
+
+  await connect(mongoUri, {
     useNewUrlParser: true,
     useCreateIndex: true,
   });
 
   process.on("SIGINT", () => {
-    mongoose.connection.close(() => {
+    connection.close(() => {
       console.log("[db] mongoose connection disconnected through app termination");
       process.exit(0);
     });
   });
+}
+
+export async function disconnectFromMongoDb(): Promise<any> {
+  return disconnect();
 }

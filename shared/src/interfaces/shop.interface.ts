@@ -1,8 +1,9 @@
+import { Document } from "mongoose";
 import { Gender, NodeProperty, Pagination } from "../enums";
 
-export interface IShop {
+export interface IShop extends Document {
   name: string;
-  logo: string;
+  logo?: string;
   scrapingData: IScrapingData;
 }
 

@@ -38,7 +38,11 @@ async function autoScroll(
       return newProductLinks;
     }, productSelector);
   } catch (e) {
-    console.log(e);
+    if (e.name === "TimeoutError") {
+      console.log("[scraper] no more scroll available");
+    } else {
+      console.log(e);
+    }
   }
 
   return productLinks;
@@ -79,7 +83,11 @@ async function numberedPages(
         document.querySelector(selector).click();
       }, nextPageSelector);
     } catch (e) {
-      console.log(e);
+      if (e.name === "TimeoutError") {
+        console.log("[scraper] no more pages");
+      } else {
+        console.log(e);
+      }
       areMorePages = false;
     }
   }
@@ -131,7 +139,7 @@ async function loadMore(
   return productLinks;
 }
 
-export function getProductLinks(
+export function getProductsLinks(
   page: Page,
   paginationData: IPaginationData,
   productSelector: string,
@@ -151,5 +159,6 @@ export function getProductLinks(
         paginationData.data as ILoadMorePaginationData,
         productSelector,
       );
+    default: console.log("[scraper] invalid pagination type");
   }
 }

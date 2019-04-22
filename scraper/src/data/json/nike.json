@@ -1,0 +1,66 @@
+{
+  "name": "Nike",
+  "scrapingData": {
+    "urls": [
+      {
+        "gender": "Man",
+        "url": "https://store.nike.com/es/es_es/pw/hombre-zapatillas/7puZoi3"
+      },
+      {
+        "gender": "Woman",
+        "url": "https://store.nike.com/es/es_es/pw/mujer-zapatillas/7ptZoi3"
+      }
+    ],
+    "paginationData": {
+      "type": "InfiniteScroll"
+    },
+    "productSelector": "div.grid-item-image-wrapper > a",
+    "productFieldsSelectors": {
+      "name": {
+        "selector": "h1#pdp_product_title",
+        "property": "innerText"
+      },
+      "description": {
+        "selector": "div.description-preview",
+        "property": "innerText"
+      },
+      "image": {
+        "selector": "meta[property=\"og:image\"]",
+        "property": "content"
+      },
+      "price": {
+        "selector": "meta[property=\"og:price:amount\"]",
+        "property": "content"
+      },
+      "currency": {
+        "selector": "meta[property=\"og:price:currency\"]",
+        "property": "content"
+      },
+      "sizes": {
+        "selector": "div[name=\"skuAndSize\"] > input:not(:disabled) + label",
+        "property": "innerText",
+        "textProcessingData": {
+          "regExpData": {
+            "regExp": "(?<=EUs).*"
+          }
+        }
+      },
+      "ref": {
+        "selector": "meta[itemprop=\"productID\"]",
+        "property": "content",
+        "textProcessingData": {
+          "regExpData": {
+            "regExp": "(?<=:\\s).*"
+          },
+          "textReplaceData": {
+            "regExpData": {
+              "regExp": "\\n",
+              "mode": "g"
+            },
+            "replaceWith": ""
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { toDtoCollection } from "shared/utils";
+import { toGenericDtoCollection } from "shared/utils";
 import * as shopService from "./shop.service";
 
 export async function createShop(
@@ -24,7 +24,7 @@ export async function findAllShops(
   try {
     const allShops = await shopService.findAll();
 
-    return res.status(200).json(toDtoCollection(allShops));
+    return res.status(200).json(toGenericDtoCollection(allShops));
   } catch (err) {
     return next(err);
   }

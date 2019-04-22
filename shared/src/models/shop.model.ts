@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { model, Model, Schema } from "mongoose";
 import { Gender, NodeProperty, Pagination } from "../enums";
 // tslint:disable-next-line:max-line-length
 import { IPaginationData, IProductFieldSelectorData, IProductFieldsSelectors, IProductUrlData, IRegExpData, IShop, ITextProcessingData } from "../interfaces";
@@ -50,11 +50,13 @@ const textProcessingDataSchema: Schema<ITextProcessingData> = new Schema({
   textReplaceData: {
     regExpData: {
       type: regExpDataSchema,
-      required: true,
     },
     replaceWith: {
       type: String,
-      required: true,
+      validate: {
+        validator: (v) => typeof v === "string",
+        message: (props) => `${props.value} is not a valid phone number!`,
+      },
     },
   },
 }, { _id: false });
@@ -103,13 +105,16 @@ const shopSchema: Schema<IShop> = new Schema({
     type: String,
     required: true,
   },
-  logo: {
-    type: String,
-    required: true,
-  },
+  // logo: {
+  //   type: String,
+  //   required: true,
+  // },
   scrapingData: {
     urls: [productUrlDataSchema],
-    paginationData: [paginationDataSchema],
+    paginationData: {
+      type: paginationDataSchema,
+      required: true,
+    },
     productSelector: {
       type: String,
       required: true,
@@ -121,4 +126,4 @@ const shopSchema: Schema<IShop> = new Schema({
   },
 }, { timestamps: true });
 
-export const Shop = model(SHOP_MODEL_NAME, shopSchema);
+export const Shop: Model<IShop> = model(SHOP_MODEL_NAME, shopSchema);

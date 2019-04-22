@@ -1,0 +1,52 @@
+{
+  "name": "JD Sports",
+  "scrapingData": {
+    "urls": [
+      {
+        "gender": "Man",
+        "url": "https://www.jdsports.es/hombre/calzado-de-hombre/zapatillas"
+      },
+      {
+        "gender": "Woman",
+        "url": "https://www.jdsports.es/mujer/calzado-de-mujer/zapatillas"
+      }
+    ],
+    "paginationData": {
+      "type": "Numbered",
+      "data": {
+        "nextPageSelector": "a[rel=\"next\"]"
+      }
+    },
+    "productSelector": "span.itemTitle > a",
+    "productFieldsSelectors": {
+      "name": {
+        "selector": "meta[itemprop=\"name\"]",
+        "property": "content"
+      },
+      "description": {
+        "selector": "meta[itemprop=\"description\"]",
+        "property": "content"
+      },
+      "image": {
+        "selector": "meta[itemprop=\"image\"]",
+        "property": "content"
+      },
+      "price": {
+        "selector": "meta[itemprop=\"price\"]",
+        "property": "content"
+      },
+      "currency": {
+        "selector": "meta[itemprop=\"priceCurrency\"]",
+        "property": "content"
+      },
+      "sizes": {
+        "selector": "div[id=\"productSizeStock\"] > button",
+        "property": "innerText"
+      },
+      "ref": {
+        "selector": "meta[itemprop=\"productID\"]",
+        "property": "content"
+      }
+    }
+  }
+}

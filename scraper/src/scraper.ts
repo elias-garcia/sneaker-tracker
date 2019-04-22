@@ -1,51 +1,55 @@
-import { Types } from "mongoose";
-import { configureMongoose } from "shared/config";
+import { configureMongoose, disconnectFromMongoDb } from "shared/config";
 import { configureBrowser, configurePage } from "./config/puppeteer.config";
 import { scraperConfig } from "./config/scraper.config";
-import { shopsScrapingData } from "./data";
-import { ISneakerScrapingFields } from "./interfaces/sneaker.interface";
-import { saveSneakers } from "./services/database.service";
-import { getProductLinks } from "./services/pagination.service";
+import { ISneakerScrapingFields } from "./interfaces/sneaker-scraping-fields.interface";
+import { getProductsLinks } from "./services/pagination.service";
 import { extractProductData } from "./services/product.service";
+import { getAllShops } from "./services/shop.service";
+import { saveSneakers } from "./services/sneaker.service";
 
-async function run(): Promise<any> {
+async function run(): Promise<void> {
   const browser = await configureBrowser();
   const page = await configurePage(browser);
+  const shops = await getAllShops();
 
-  for (const shopData of shopsScrapingData) {
-    await page.goto(shopData.urls[0].url);
+  for (const shop of shops) {
+    for (const shopUrlData of shop.scrapingData.urls) {
+      await page.goto(shopUrlData.url);
 
-    const productLinks = await getProductLinks(
-      page,
-      shopData.paginationData,
-      shopData.productSelector,
-    );
-    const scrapedSneakersData = [];
-
-    // for (let i = 0; i <= productLinks.length; i++) {
-    for (let i = 0; i <= 5; i++) {
-      const sneakerData: ISneakerScrapingFields = await extractProductData(
+      const productLinks = await getProductsLinks(
         page,
-        productLinks[i],
-        shopData.productFieldsSelectors,
+        shop.scrapingData.paginationData,
+        shop.scrapingData.productSelector,
       );
+      const scrapedSneakersData = [];
 
-      scrapedSneakersData.push(sneakerData);
+      // for (let i = 0; i <= productLinks.length; i++) {
+      for (let i = 0; i <= 10; i++) {
+        const sneakerData: ISneakerScrapingFields = await extractProductData(
+          page,
+          productLinks[i],
+          shop.scrapingData.productFieldsSelectors,
+        );
+
+        scrapedSneakersData.push(sneakerData);
+      }
+
+      saveSneakers(
+        scrapedSneakersData,
+        shop._id,
+        shopUrlData.gender,
+      );
     }
-
-    saveSneakers(
-      scrapedSneakersData,
-      Types.ObjectId(),
-      shopData.urls[0].gender,
-    );
   }
 
+  return await browser.close();
 }
 
 (async () => {
   try {
     await configureMongoose(scraperConfig.mongoUri);
     await run();
+    await disconnectFromMongoDb();
   } catch (e) {
     console.error(e);
   }

@@ -1,14 +1,13 @@
 import { Gender } from "shared/enums";
 import { ISneaker, ISneakerPrice, ISneakerSizesData } from "shared/interfaces";
 import { Sneaker, SneakerPrice } from "shared/models";
-import { ISneakerScrapingFields } from "../interfaces/sneaker.interface";
+import { ISneakerScrapingFields } from "../interfaces/sneaker-scraping-fields.interface";
 
 function createSneaker(
   sneaker: ISneakerScrapingFields,
   shopId: string,
   gender: Gender,
 ): Promise<ISneaker> {
-  console.log(sneaker);
   return Sneaker.create({
     ref: sneaker.ref,
     name: sneaker.name,
@@ -41,8 +40,13 @@ function updateSneaker(
       shop: shopId,
       currency: sneakerScrapingData.currency,
       sizes: sneakerScrapingData.sizes,
-      mostRecentPrice: Number(sneakerScrapingData.price),
+      mostRecentPrice: newPrice,
     });
+  }
+
+  if (sneakerScrapingData.description
+    && sneakerScrapingData.description.length > sneaker.description.length) {
+    sneaker.description = sneakerScrapingData.description;
   }
 
   return sneaker.save();

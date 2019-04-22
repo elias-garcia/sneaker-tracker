@@ -1,0 +1,52 @@
+{
+  "name": "Adidas",
+  "scrapingData": {
+    "urls": [
+      {
+        "gender": "Man",
+        "url": "https://www.adidas.es/calzado-lifestyle-hombre"
+      },
+      {
+        "gender": "Woman",
+        "url": "https://www.adidas.es/calzado-lifestyle-mujer"
+      }
+    ],
+    "paginationData": {
+      "type": "Numbered",
+      "data": {
+        "nextPageSelector": "[class*=\"pagination__control--next\"] > a"
+      }
+    },
+    "productSelector": "div.gl-product-card__details > a",
+    "productFieldsSelectors": {
+      "name": {
+        "selector": "meta[itemprop=\"name\"]",
+        "property": "content"
+      },
+      "description": {
+        "selector": "meta[itemprop=\"description\"]",
+        "property": "content"
+      },
+      "image": {
+        "selector": "meta[property=\"og:image\"]",
+        "property": "content"
+      },
+      "price": {
+        "selector": "meta[itemprop=\"price\"]",
+        "property": "content"
+      },
+      "currency": {
+        "selector": "meta[itemprop=\"priceCurrency\"]",
+        "property": "content"
+      },
+      "sizes": {
+        "selector": "div[data-auto-id=\"size-selector\"] li.gl-menu__item",
+        "property": "title"
+      },
+      "ref": {
+        "selector": "meta[itemprop=\"sku\"]",
+        "property": "content"
+      }
+    }
+  }
+}

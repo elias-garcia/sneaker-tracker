@@ -27,7 +27,7 @@ async function processOneNode(
   selectorData: IProductFieldSelectorData,
 ): Promise<string> {
   const processingData = selectorData.textProcessingData;
-  let processedText;
+  let processedText: any;
 
   processedText = await (await node.getProperty(selectorData.property)).jsonValue();
 

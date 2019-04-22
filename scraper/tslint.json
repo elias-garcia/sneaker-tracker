@@ -2,7 +2,5 @@
   "extends": [
     "../tslint-base.json"
   ],
-  "rules": {
-    "interface-name": false
-  }
+  "rules": {}
 }

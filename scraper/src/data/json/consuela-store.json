@@ -1,0 +1,82 @@
+{
+  "name": "Consuela Store",
+  "scrapingData": {
+    "urls": [
+      {
+        "gender": "Man",
+        "url": "https://www.consuelastore.com/collections/men"
+      },
+      {
+        "gender": "Woman",
+        "url": "https://www.consuelastore.com/collections/woman"
+      }
+    ],
+    "paginationData": {
+      "type": "Numbered",
+      "data": {
+        "nextPageSelector": ".pagination_next > a"
+      }
+    },
+    "productSelector": "div > a.product-name",
+    "productFieldsSelectors": {
+      "name": {
+        "selector": "h1[itemProp=\"name\"]",
+        "property": "innerText"
+      },
+      "description": {
+        "selector": "div.panel-body",
+        "property": "innerText",
+        "textProcessingData": {
+          "textReplaceData": {
+            "regExpData": {
+              "regExp": "\\n",
+              "mode": "g"
+            },
+            "replaceWith": ""
+          }
+        }
+      },
+      "image": {
+        "selector": "meta[itemProp=\"image\"]",
+        "property": "content"
+      },
+      "price": {
+        "selector": "meta[property=\"og:price:amount\"]",
+        "property": "content",
+        "textProcessingData": {
+          "textReplaceData": {
+            "regExpData": {
+              "regExp": ",",
+              "mode": "g"
+            },
+            "replaceWith": "."
+          }
+        }
+      },
+      "currency": {
+        "selector": "meta[itemProp=\"priceCurrency\"]",
+        "property": "content"
+      },
+      "sizes": {
+        "selector": ".talla > .swatch-size.available > input",
+        "property": "value"
+      },
+      "ref": {
+        "selector": "div.panel-body",
+        "property": "innerText",
+        "textProcessingData": {
+          "regExpData": {
+            "regExp": "(?<=Modelo:).*"
+          },
+          "textReplaceData": {
+            "regExpData": {
+              "regExp": "\\n",
+              "mode": "g"
+            },
+            "replaceWith": ""
+          }
+        }
+      }
+    }
+  }
+}

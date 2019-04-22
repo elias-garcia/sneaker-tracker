@@ -1,0 +1,58 @@
+{
+  "name": "Foot Locker",
+  "scrapingData": {
+    "urls": [
+      {
+        "gender": "Man",
+        "url": "https://www.footlocker.es/es/hombre/zapatos/"
+      },
+      {
+        "gender": "Woman",
+        "url": "https://www.footlocker.es/es/mujer/zapatos/"
+      }
+    ],
+    "paginationData": {
+      "type": "LoadMore",
+      "data": {
+        "nextPageSelector": "[data-ajaxcontent=\"productpagebutton\"] div.fl-btn",
+        "loaderSelector": "[data-ajaxcontent=\"productpagebutton\"] div.fl-btn.hide"
+      }
+    },
+    "productSelector": "div.fl-product-tile--details > a",
+    "productFieldsSelectors": {
+      "name": {
+        "selector": "meta[itemprop=\"name\"]",
+        "property": "content"
+      },
+      "description": {
+        "selector": "meta[itemprop=\"description\"]",
+        "property": "content"
+      },
+      "image": {
+        "selector": "meta[property=\"og:image\"]",
+        "property": "content"
+      },
+      "price": {
+        "selector": "meta[itemprop=\"price\"]",
+        "property": "content"
+      },
+      "currency": {
+        "selector": "meta[itemprop=\"priceCurrency\"]",
+        "property": "content"
+      },
+      "sizes": {
+        "selector": "div[data-toggle-container=\"productSizeSelectionContainer\"] section:nth-of-type(1) button:not(.fl-product-size--item__not-available) span",
+        "property": "innerText"
+      },
+      "ref": {
+        "selector": "meta[itemprop=\"og:description\"]",
+        "property": "content",
+        "textProcessingData": {
+          "regExpData": {
+            "regExp": "(?<=().*(?=))"
+          }
+        }
+      }
+    }
+  }
+}

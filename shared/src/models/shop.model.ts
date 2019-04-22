@@ -55,7 +55,7 @@ const textProcessingDataSchema: Schema<ITextProcessingData> = new Schema({
       type: String,
       validate: {
         validator: (v) => typeof v === "string",
-        message: (props) => `${props.value} is not a valid phone number!`,
+        message: (props) => `${props.value} is not a valid string to replace`,
       },
     },
   },
@@ -91,6 +91,10 @@ const productFieldsSelectorSchema: Schema<IProductFieldsSelectors> = new Schema(
     required: true,
   },
   currency: {
+    type: productFieldSelectorDataSchema,
+    required: true,
+  },
+  sizes: {
     type: productFieldSelectorDataSchema,
     required: true,
   },

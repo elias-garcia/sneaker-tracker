@@ -91,7 +91,7 @@ export async function saveSneakers(
   sneakersScrapingData: ISneakerScrapingFields[],
   shopId: any,
   gender: Gender,
-): Promise<void> {
+): Promise<ISneaker[]> {
   const promises = sneakersScrapingData.map(
     (sneakerScrapingData: ISneakerScrapingFields) => {
       return saveOrUpdateSneaker(
@@ -102,11 +102,12 @@ export async function saveSneakers(
     },
   );
 
-  try {
-    const results = await Promise.all(promises);
+  return Promise.all(promises);
+  // try {
+  //   const results = await Promise.all(promises);
 
-    console.log(results);
-  } catch (e) {
-    console.log(e);
-  }
+  //   console.log(results);
+  // } catch (e) {
+  //   console.log(e);
+  // }
 }

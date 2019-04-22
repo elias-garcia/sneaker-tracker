@@ -5,11 +5,11 @@ export const adidas: IScrapingData = {
   urls: [
     {
       gender: Gender.Man,
-      url: "https://www.adidas.es/calzado-lifestyle-hombre",
+      url: "https://www.adidas.es/calzado-originals-hombre",
     },
     {
       gender: Gender.Woman,
-      url: "https://www.adidas.es/calzado-lifestyle-mujer",
+      url: "https://www.adidas.es/calzado-originals-mujer",
     },
   ],
   paginationData: {

@@ -34,11 +34,16 @@ async function run(): Promise<void> {
         scrapedSneakersData.push(sneakerData);
       }
 
-      saveSneakers(
-        scrapedSneakersData,
-        shop._id,
-        shopUrlData.gender,
-      );
+      try {
+        const results = await saveSneakers(
+          scrapedSneakersData,
+          shop._id,
+          shopUrlData.gender,
+        );
+        console.log(results);
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 

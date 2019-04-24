@@ -15,7 +15,8 @@
     "dotenv": "^7.0.0",
     "mongoose": "^5.4.17",
     "puppeteer": "^1.12.2",
-    "shared": "file:../shared/dist/shared-1.0.0.tgz"
+    "shared": "file:../shared/dist/shared-1.0.0.tgz",
+    "user-agents": "^1.0.236"
   },
   "devDependencies": {
     "@types/dotenv": "^6.1.1",

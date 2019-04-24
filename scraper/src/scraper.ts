@@ -1,4 +1,5 @@
 import { configureMongoose, disconnectFromMongoDb } from "shared/config";
+import * as UserAgent from "user-agents";
 import { configureBrowser, configurePage } from "./config/puppeteer.config";
 import { scraperConfig } from "./config/scraper.config";
 import { ISneakerScrapingFields } from "./interfaces/sneaker-scraping-fields.interface";
@@ -13,7 +14,10 @@ async function run(): Promise<void> {
   const shops = await getAllShops();
 
   for (const shop of shops) {
+    console.log(`[scraper] scraping ${shop.name}`);
     for (const shopUrlData of shop.scrapingData.urls) {
+      console.log(`[scraper] scraping gender ${shopUrlData.gender}`);
+      await page.setUserAgent(new UserAgent().toString());
       await page.goto(shopUrlData.url);
 
       const productLinks = await getProductsLinks(

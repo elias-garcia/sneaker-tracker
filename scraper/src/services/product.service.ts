@@ -1,5 +1,6 @@
 import { Page } from "puppeteer";
 import { IProductFieldSelectorData, IProductFieldsSelectors } from "shared/interfaces";
+import * as UserAgent from "user-agents";
 import { ISneakerScrapingFields } from "../interfaces/sneaker-scraping-fields.interface";
 import { processSelector } from "./dom.service";
 
@@ -10,6 +11,7 @@ export async function extractProductData(
 ) {
   const sneakerData: ISneakerScrapingFields = { url: productLink };
 
+  await page.setUserAgent(new UserAgent().toString());
   await page.goto(productLink);
 
   try {

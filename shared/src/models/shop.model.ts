@@ -6,11 +6,11 @@ import { IPaginationData, IProductFieldSelectorData, IProductFieldsSelectors, IP
 export const SHOP_MODEL_NAME = "Shop";
 
 const productUrlDataSchema: Schema<IProductUrlData> = new Schema({
-  gender: {
+  genders: [{
     type: String,
     enum: Object.keys(Gender).map((key: string) => Gender[key]),
     required: true,
-  },
+  }],
   url: {
     type: String,
     required: true,

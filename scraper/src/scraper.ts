@@ -24,7 +24,7 @@ async function run(): Promise<void> {
       const scrapedSneakersData = [];
 
       // for (let i = 0; i <= productLinks.length; i++) {
-      for (let i = 0; i <= 10; i++) {
+      for (let i = 0; i < 5; i++) {
         const sneakerData: ISneakerScrapingFields = await extractProductData(
           page,
           productLinks[i],
@@ -40,7 +40,7 @@ async function run(): Promise<void> {
           shop._id,
           shopUrlData.gender,
         );
-        console.log(results);
+        // console.log(results);
       } catch (e) {
         console.log(e);
       }

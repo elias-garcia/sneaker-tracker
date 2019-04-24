@@ -10,6 +10,10 @@ const sneakerSizesDataSchema: Schema<ISneakerSizesData> = new Schema({
     type: Schema.Types.ObjectId,
     ref: SHOP_MODEL_NAME,
   },
+  url: {
+    type: String,
+    required: true,
+  },
   sizes: [{
     type: String,
   }],

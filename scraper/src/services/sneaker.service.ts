@@ -11,7 +11,7 @@ function createSneaker(
   return Sneaker.create({
     ref: sneaker.ref,
     name: sneaker.name,
-    gender,
+    genders: [gender],
     description: sneaker.description,
     image: sneaker.image,
     sizesData: {
@@ -27,17 +27,23 @@ function updateSneaker(
   sneakerScrapingData: ISneakerScrapingFields,
   sneaker: ISneaker,
   shopId: string,
+  gender: Gender,
 ): Promise<ISneaker> {
   const sneakerSizesDataFound = sneaker.sizesData.find(
-    (value: ISneakerSizesData) => value.shop === shopId,
+    (value: ISneakerSizesData) => value.shop.toString() === shopId.toString(),
   );
   const newPrice = Number(sneakerScrapingData.price);
 
   if (sneakerSizesDataFound) {
     sneakerSizesDataFound.mostRecentPrice = newPrice;
+    sneakerSizesDataFound.sizes = sneakerScrapingData.sizes;
+    if (!sneaker.genders.includes(gender)) {
+      sneaker.genders.push(gender);
+    }
   } else {
     sneaker.sizesData.push({
       shop: shopId,
+      url: sneakerScrapingData.url,
       currency: sneakerScrapingData.currency,
       sizes: sneakerScrapingData.sizes,
       mostRecentPrice: newPrice,
@@ -74,7 +80,7 @@ async function saveOrUpdateSneaker(
   let sneaker = await Sneaker.findOne({ ref: sneakerScrapingData.ref });
 
   sneaker = sneaker
-    ? await updateSneaker(sneakerScrapingData, sneaker, shopId)
+    ? await updateSneaker(sneakerScrapingData, sneaker, shopId, gender)
     : await createSneaker(sneakerScrapingData, shopId, gender);
 
   await createSneakerPrice(

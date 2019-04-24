@@ -4,21 +4,22 @@ import { Sneaker, SneakerPrice } from "shared/models";
 import { ISneakerScrapingFields } from "../interfaces/sneaker-scraping-fields.interface";
 
 function createSneaker(
-  sneaker: ISneakerScrapingFields,
+  sneakerScrapingData: ISneakerScrapingFields,
   shopId: string,
   gender: Gender,
 ): Promise<ISneaker> {
   return Sneaker.create({
-    ref: sneaker.ref,
-    name: sneaker.name,
+    ref: sneakerScrapingData.ref,
+    name: sneakerScrapingData.name,
     genders: [gender],
-    description: sneaker.description,
-    image: sneaker.image,
+    description: sneakerScrapingData.description,
+    image: sneakerScrapingData.image,
     sizesData: {
       shop: shopId,
-      sizes: sneaker.sizes,
-      mostRecentPrice: sneaker.price,
-      currency: sneaker.currency,
+      url: sneakerScrapingData.url,
+      sizes: sneakerScrapingData.sizes ? sneakerScrapingData.sizes : [],
+      mostRecentPrice: sneakerScrapingData.price,
+      currency: sneakerScrapingData.currency,
     },
   });
 }

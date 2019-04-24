@@ -37,11 +37,11 @@ const sneakerSchema: Schema<ISneaker> = new Schema({
     type: String,
     required: true,
   },
-  gender: {
+  genders: [{
     type: String,
     enum: Object.keys(Gender).map((key: string) => Gender[key]),
     required: true,
-  },
+  }],
   description: {
     type: String,
   },

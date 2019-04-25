@@ -20,33 +20,38 @@ async function run(): Promise<void> {
       await page.setUserAgent(new UserAgent().toString());
       await page.goto(shopUrlData.url);
 
-      const productLinks = await getProductsLinks(
+      let productLinks = await getProductsLinks(
         page,
         shop.scrapingData.paginationData,
         shop.scrapingData.productSelector,
       );
       const scrapedSneakersData = [];
 
-      // for (let i = 0; i <= productLinks.length; i++) {
-      for (let i = 0; i < 5; i++) {
-        const sneakerData: ISneakerScrapingFields = await extractProductData(
-          page,
-          productLinks[i],
-          shop.scrapingData.productFieldsSelectors,
-        );
+      if (productLinks && productLinks.length) {
+        productLinks = [...new Set(productLinks)];
+        // for (let i = 0; i <= productLinks.length; i++) {
+        for (let i = 0; i < 5; i++) {
+          const sneakerData: ISneakerScrapingFields = await extractProductData(
+            page,
+            productLinks[i],
+            shop.scrapingData.productFieldsSelectors,
+          );
 
-        scrapedSneakersData.push(sneakerData);
-      }
+          scrapedSneakersData.push(sneakerData);
+        }
 
-      try {
-        const results = await saveSneakers(
-          scrapedSneakersData,
-          shop._id,
-          shopUrlData.gender,
-        );
-        // console.log(results);
-      } catch (e) {
-        console.log(e);
+        try {
+          const results = await saveSneakers(
+            scrapedSneakersData,
+            shop._id,
+            shopUrlData.gender,
+          );
+          // console.log(results);
+        } catch (e) {
+          console.log(e);
+        }
+      } else {
+        console.log("[scraper] no products have been scraped");
       }
     }
   }

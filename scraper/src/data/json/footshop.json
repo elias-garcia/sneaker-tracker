@@ -12,13 +12,12 @@
       }
     ],
     "paginationData": {
-      "type": "LoadMore",
+      "type": "Numbered",
       "data": {
-        "nextPageSelector": "button[class*=\"LoadMoreProducts_button\"]",
-        "loaderSelector": "div[class*=\"LoadMoreProducts_loader\"]"
+        "nextPageSelector": "li[class*=\"PaginationLink_last\"] > a"
       }
     },
-    "productSelector": "a[class*=\"Product_link\"]",
+    "productSelector": "div[class*=\"Products_product\"] a",
     "productFieldsSelectors": {
       "name": {
         "selector": "meta[property=\"og:title\"]",

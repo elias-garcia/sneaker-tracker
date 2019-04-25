@@ -162,3 +162,53 @@ export function getProductsLinks(
     default: console.log("[scraper] invalid pagination type");
   }
 }
+
+// async function loadMore(
+//   page: Page,
+//   data: ILoadMorePaginationData,
+//   productSelector: string,
+// ): Promise<string[]> {
+//   const nextPageSelector = data.nextPageSelector;
+//   const productLinks: string[] = [];
+//   let areMorePages = true;
+
+//   while (areMorePages) {
+//     try {
+//       await page.waitForSelector(nextPageSelector, { visible: true, timeout: 3000 });
+//       await page.evaluate(() => {
+//         window.scrollTo(0, document.body.scrollHeight);
+//       });
+//       await page.evaluate((selector) => {
+//         document.querySelector(selector).click();
+//       }, nextPageSelector);
+
+//       await page.waitFor((nextPageSel: string, productSel: string, previousProducts: number): boolean => {
+//         const nextPageButton = document.querySelector(nextPageSel);
+//         const products = document.querySelectorAll(productSel);
+
+//         return (nextPageButton !== null && products.length > previousProducts);
+//       }, { timeout: 7000 }, nextPageSelector, productSelector, productLinks.length);
+
+//       const newProductsLinks = await page.evaluate((selector: string): string[] => {
+//         const productNodes: NodeList = document.querySelectorAll(selector);
+//         const newProducts: string[] = [];
+
+//         productNodes.forEach((node: Node) => {
+//           newProducts.push((node as HTMLAnchorElement).href);
+//         });
+
+//         return newProducts;
+//       }, productSelector);
+
+//       productLinks.push(...newProductsLinks);
+//     } catch (e) {
+//       if (e.name === "TimeoutError") {
+//         console.log("[scraper] no more pages available");
+//       }
+//       console.log(e);
+//       areMorePages = false;
+//     }
+//   }
+
+//   return productLinks;
+// }
